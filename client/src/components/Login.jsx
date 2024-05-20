@@ -12,7 +12,7 @@ function Login() {
     try {
       const response = await login({ username, password });
       localStorage.setItem("token", response.token); // Store token
-      navigate("/protected"); // Redirect on success
+      navigate("/todos"); // Redirect on success
     } catch (error) {
       // Handle login error
       console.error("Login failed:", error);

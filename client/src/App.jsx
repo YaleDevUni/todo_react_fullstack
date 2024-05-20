@@ -3,7 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
-import ProtectedPage from "./components/ProtectedPage"; // Page to protect
+import TodoGet from "./components/TodoGet"; // Import TodoGet
+import TodoPost from "./components/TodoPost"; // Import TodoPost
+
+// ...other imports
 
 function App() {
   return (
@@ -12,7 +15,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/protected" element={<ProtectedPage />} />
+          <Route path="/todos" element={<TodoGet />} />{" "}
+          {/* Protected route for TodoGet */}
+          <Route path="/create-todo" element={<TodoPost />} />{" "}
+          {/* Protected route for TodoPost */}
         </Route>
       </Routes>
     </BrowserRouter>
