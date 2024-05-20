@@ -8,6 +8,9 @@ import TodoPost from "./components/TodoPost"; // Import TodoPost
 
 // ...other imports
 
+import TodoPage from "./components/TodoPage";
+import { TodoProvider } from "./context/TodoContext"; // Import the provider
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,10 +18,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/todos" element={<TodoGet />} />{" "}
-          {/* Protected route for TodoGet */}
-          <Route path="/create-todo" element={<TodoPost />} />{" "}
-          {/* Protected route for TodoPost */}
+          <Route
+            path="/todos"
+            element={
+              <TodoProvider>
+                <TodoPage />
+              </TodoProvider>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
