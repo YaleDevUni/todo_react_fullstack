@@ -6,8 +6,8 @@ const authMiddleware = require("../middleware/authMiddleware"); // Import authen
 // CREATE a todo
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    console.log(req.body, req.user, req.user.user._id);
-    const todo = new Todo({ ...req.body, user: req.user.user._id }); // Link todo to the authenticated user
+    console.log(req.body, req.user, req.user._id);
+    const todo = new Todo({ ...req.body, user: req.user.userId }); // Link todo to the authenticated user
     const savedTodo = await todo.save();
     res.status(201).json(savedTodo);
   } catch (err) {
@@ -18,7 +18,8 @@ router.post("/", authMiddleware, async (req, res) => {
 // READ all todos of the authenticated user
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const todos = await Todo.find({ user: req.user.user._id });
+    console.log(req.user);
+    const todos = await Todo.find({ user: req.user.userId });
     res.json(todos);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -42,7 +43,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 // DELETE a todo
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
-    const deletedTodo = await Todo.findOneAndDelete({_id:req.params.id});
+    const deletedTodo = await Todo.findOneAndDelete({ _id: req.params.id });
     if (!deletedTodo)
       return res.status(404).json({ message: "Todo not found" });
     res.json({ message: "Todo deleted" });
