@@ -17,3 +17,21 @@ export async function login(credentials) {
   });
   return response.json();
 }
+
+export async function validateToken(token) {
+  const response = await fetch(`${API_URL}/validate-token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // Include the token in the header
+    },
+  });
+  return response.json();
+}
+
+export async function logout() {
+  // Primarily client-side action:
+  localStorage.removeItem("token");
+  // Optionally, send a request to your logout API:
+  // await fetch(`${API_URL}/logout`, { method: 'POST' });
+}

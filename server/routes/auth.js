@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const authMiddleware = require("../middleware/authMiddleware");
 require("dotenv").config();
 
 // Registration Route
@@ -25,7 +26,8 @@ router.post(
   passport.authenticate("local", { session: false }),
   (req, res) => {
     const token = jwt.sign({ userId: req.user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+        // 30 seconds
+      expiresIn: 30,
     });
     res.json({ token });
   }
@@ -36,6 +38,5 @@ router.post("/validate-token", authMiddleware, (req, res) => {
   res.json({ valid: true, user: req.user }); // Send back user data (optional)
 });
 
-module.exports = router;
 
 module.exports = router;
